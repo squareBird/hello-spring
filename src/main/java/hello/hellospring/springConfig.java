@@ -1,5 +1,6 @@
 package hello.hellospring;
 
+import hello.hellospring.aop.TimeTraceAop;
 import hello.hellospring.repository.*;
 import hello.hellospring.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,23 +22,35 @@ public class springConfig {
         this.dataSource = dataSource;
     }*/
 
-    private EntityManager em;
+    /*private EntityManager em;
 
     public springConfig(EntityManager em) {
         this.em = em;
+    }*/
+
+    private final MemberRepository memberRepository;
+
+    @Autowired
+    public springConfig(MemberRepository memberRepository) {
+        this.memberRepository = memberRepository;
     }
 
     @Bean
     public MemberService memberService() {
         // 스프링빈에 등록된걸 넣어줌
-        return new MemberService(memberRepository());
+        return new MemberService(memberRepository);
     }
 
-    @Bean
+//    @Bean
+//    public TimeTraceAop timeTraceAop() {
+//        return new TimeTraceAop();
+//    }
+
+  /*  @Bean
     public MemberRepository memberRepository() {
-        return new JpaMemberRepository(em);
+//        return new JpaMemberRepository(em);
 //        return new JdbcTemplateMemberRepository(dataSource);
 //        return new JdbcMemberRepository(dataSource);
 //        return new MemoryMemberRepository();
-    }
+    }*/
 }
