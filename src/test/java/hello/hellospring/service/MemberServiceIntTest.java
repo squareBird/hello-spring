@@ -24,7 +24,7 @@ class MemberServiceIntTest {
     @Autowired MemberService memberService;
 
     @Test
-    void 회원가입() {
+    void join() {
 
         // given
         Member member = new Member();
@@ -40,13 +40,13 @@ class MemberServiceIntTest {
     }
 
     @Test
-    void 중복_회원예외() {
+    void du_join() {
         // given
         Member member1 = new Member();
-        member1.setName("spring");
+        member1.setName("spring2");
 
         Member member2 = new Member();
-        member2.setName("spring");
+        member2.setName("spring2");
 
         // when
         memberService.join(member1);
