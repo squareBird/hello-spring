@@ -1,8 +1,14 @@
 package hello.hellospring.controller;
 
+import hello.hellospring.domain.Member;
 import hello.hellospring.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+
+import java.util.List;
 
 /*
 DI는 3가지 방법이 있음
@@ -31,6 +37,31 @@ public class MemberController {
     @Autowired
     public MemberController(MemberService memberService) {
         this.memberService = memberService;
+    }
+
+    @GetMapping("/members/new")
+    public String createForm() {
+        return "members/createMemberForm";
+    }
+    
+    // 이렇게 하면 스프링이 html의 Form에서 날아온 값을 MemberForm에서 name필드와 일치시켜서 주입해줌.
+    @PostMapping("/members/new")
+    public String create(MemberForm form) {
+        
+        Member member = new Member();
+        member.setName(form.getName());
+        
+        memberService.join(member);
+        return "redirect:/";
+    }
+    
+    @GetMapping("/members")
+    public String list(Model model) {
+        List<Member> members = memberService.findMembers();
+        // return 할때 model을 같이 넘겨줌
+        model.addAttribute("members", members);
+        return "members/memberList";
+                
     }
 
 }
